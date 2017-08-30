@@ -5,9 +5,9 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import { PageHeader, Grid, Row, Col } from 'react-bootstrap'
-import { Nav, NavItem } from 'react-bootstrap'
 import { DropdownButton, MenuItem } from 'react-bootstrap'
 import ListPosts from './ListPosts'
+import Categories from './Categories'
 
 class App extends Component {
   componentDidMount() {
@@ -22,11 +22,7 @@ class App extends Component {
           <PageHeader>Readable</PageHeader>
           <Row>
             <Col xs={10}>
-              <Nav bsStyle="pills">
-                <NavItem eventKey="react">react</NavItem>
-                <NavItem eventKey="redux">redux</NavItem>
-                <NavItem eventKey="udacity">udacity</NavItem>
-              </Nav>
+              <Categories />
             </Col>
             <Col xs={2}>
               <DropdownButton bsSize="small" bsStyle="primary" title="sort by">
@@ -43,12 +39,4 @@ class App extends Component {
   }
 }
 
-function mapStateToProps({ posts }) {
-  return {
-    posts
-  }
-}
-
-export default connect(
-  mapStateToProps
-)(App);
+export default connect()(App);
