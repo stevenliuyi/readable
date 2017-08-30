@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { fetchPosts } from '../actions'
+import { fetchPosts, fetchCategories } from '../actions'
+import { Route } from 'react-router-dom'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
@@ -10,8 +11,9 @@ import ListPosts from './ListPosts'
 import Categories from './Categories'
 
 class App extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.dispatch(fetchPosts())
+    this.props.dispatch(fetchCategories())
   }
   
   render() {
@@ -20,18 +22,33 @@ class App extends Component {
         <Col xsHidden md={1} />
         <Col xs={12} md={10}>
           <PageHeader>Readable</PageHeader>
-          <Row>
-            <Col xs={10}>
-              <Categories />
-            </Col>
-            <Col xs={2}>
-              <DropdownButton bsSize="small" bsStyle="primary" title="sort by">
-                <MenuItem eventKey="score">score</MenuItem>
-                <MenuItem eventKey="time">time</MenuItem>
-              </DropdownButton>
-            </Col>
-          </Row>
-          <ListPosts />
+          { /* root or category paths */ }
+          <Route exact path="/([^/]*)" render={ () => (
+            <div>
+              <Row className="category-bar">
+                <Col xs={10}>
+                  <Route exact path="/" render={ () =>
+                    <Categories />
+                    } />
+                  <Route exact path="/:category" render={ ({match}) => 
+                    <Categories category={ match.params.category } />
+                    } />
+                </Col>
+                <Col xs={2}>
+                  <DropdownButton bsSize="small" bsStyle="primary" title="sort by">
+                    <MenuItem eventKey="score">score</MenuItem>
+                    <MenuItem eventKey="time">time</MenuItem>
+                  </DropdownButton>
+                </Col>
+              </Row>
+              <Route exact path="/" render={ () =>
+                <ListPosts />
+                } />
+              <Route exact path="/:category" render={ ({match}) => 
+                <ListPosts category={ match.params.category } />
+                } />
+            </div>
+          )} />
         </Col>
         <Col xsHidden md={1} />
       </Grid>
@@ -39,4 +56,11 @@ class App extends Component {
   }
 }
 
-export default connect()(App);
+
+const mapStateToProps = (state) => (
+  { categories: state.categories }
+)
+
+export default connect(mapStateToProps, null, null, {
+  pure: false // allow react router to update view
+})(App);

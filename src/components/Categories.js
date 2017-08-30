@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchCategories } from '../actions'
 import { Nav, NavItem } from 'react-bootstrap'
+import { IndexLinkContainer } from 'react-router-bootstrap'
 
 class Categories extends Component {
   componentWillMount() {
@@ -11,9 +12,19 @@ class Categories extends Component {
   render() {
     return (
       <Nav bsStyle="pills">
+        <IndexLinkContainer to={"/"}>
+          <NavItem active={ this.props.category === undefined }>
+            all
+          </NavItem>
+        </IndexLinkContainer>
+
         { Array.isArray(this.props.categories) &&
             this.props.categories.map((cat) => (
-              <NavItem eventKey={ cat.name }>{ cat.name }</NavItem>
+              <IndexLinkContainer to={ `/${cat.path}` }>
+                <NavItem active={ this.props.category === cat.name }>
+                  { cat.name }
+                </NavItem>
+              </IndexLinkContainer>
             )) }
       </Nav>
     )

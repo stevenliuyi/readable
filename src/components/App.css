@@ -23,6 +23,10 @@
   to { transform: rotate(360deg); }
 }
 
+.category-bar {
+  padding-bottom: 30px;
+}
+
 .timestamp-text {
   color: grey;
   text-align: right;
