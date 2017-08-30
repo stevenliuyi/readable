@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { fetchPosts } from '../actions'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
@@ -11,6 +13,10 @@ import FaCaretUp from 'react-icons/lib/fa/caret-up'
 import FaEllipsisH from 'react-icons/lib/fa/ellipsis-h'
 
 class App extends Component {
+  componentDidMount() {
+    this.props.dispatch(fetchPosts())
+  }
+  
   render() {
     return (
       <Grid>
@@ -20,9 +26,9 @@ class App extends Component {
           <Row>
             <Col xs={10}>
               <Nav bsStyle="pills">
-                <NavItem eventkey="react">react</NavItem>
-                <NavItem eventkey="redux">redux</NavItem>
-                <NavItem eventkey="udacity">udacity</NavItem>
+                <NavItem eventKey="react">react</NavItem>
+                <NavItem eventKey="redux">redux</NavItem>
+                <NavItem eventKey="udacity">udacity</NavItem>
               </Nav>
             </Col>
             <Col xs={2}>
@@ -75,4 +81,12 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps({ posts }) {
+  return {
+    posts
+  }
+}
+
+export default connect(
+  mapStateToProps
+)(App);
