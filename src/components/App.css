@@ -42,6 +42,7 @@
 
 .vote-arrow {
   text-align: center;
+  cursor: pointer;
 }
 
 .detail-icon {

@@ -27,3 +27,10 @@ export const addPost = (title, body, author) =>
         category: 'react'
     })
   }).then(res => res.json())
+
+export const votePost = (post_id, option) =>
+ fetch(`${api_url}/posts/${post_id}`, {
+   method: 'POST',
+   headers,
+   body: JSON.stringify({ option })
+ }).then(res => res.json())

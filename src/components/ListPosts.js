@@ -7,6 +7,7 @@ import FaEllipsisH from 'react-icons/lib/fa/ellipsis-h'
 import MdAddCircle from 'react-icons/lib/md/add-circle'
 import convertTimestamp from '../utils/convert-timestamp'
 import EditPost from './EditPost'
+import { fetchVotePost } from '../actions'
 
 class ListPosts extends Component {
   state = {
@@ -39,6 +40,10 @@ class ListPosts extends Component {
     this.setState({ add_post: false })
   }
 
+  voteOnPost = (id, option) => {
+    this.props.dispatch(fetchVotePost(id, option))
+  }
+
   render() {
     return (
       <div>
@@ -56,9 +61,19 @@ class ListPosts extends Component {
                       <p className="timestamp-text"><Label>{ post.author }</Label>&nbsp;&nbsp;&nbsp;{ convertTimestamp(post.timestamp) }</p>                  
                     </Col>
                     <Col xs={1}>
-                      <div className="vote-arrow"><FaCaretUp size={30} /></div>
+                      <div className="vote-arrow">
+                        <FaCaretUp
+                          size={30}
+                          onClick={ () => this.voteOnPost(post.id, 'upVote') }
+                        />
+                      </div>
                       <div className="vote-score">{ post.voteScore }</div>
-                      <div className="vote-arrow"><FaCaretDown size={30} /></div>
+                      <div className="vote-arrow">
+                        <FaCaretDown
+                          size={30}
+                          onClick={ () => this.voteOnPost(post.id, 'downVote') }
+                        />
+                      </div>
                     </Col>
                   </Row>
                   <div className="detail-icon">

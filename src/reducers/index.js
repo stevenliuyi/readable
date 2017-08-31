@@ -1,5 +1,8 @@
 import { combineReducers } from 'redux'
-import { RECEIVE_POSTS, ADD_POST, RECEIVE_CATEGORIES } from '../actions';
+import { RECEIVE_POSTS,
+         ADD_POST,
+         EDIT_POST,
+         RECEIVE_CATEGORIES } from '../actions';
 
 function posts(state = {}, action) {
   
@@ -10,6 +13,10 @@ function posts(state = {}, action) {
     case ADD_POST:
       const { new_post } = action
       return [...state, new_post]
+    case EDIT_POST:
+      const { edited_post } = action
+      return state.map( (post, index) => post.id === edited_post.id ?
+              edited_post : post )   
     default:
       return state
   }
