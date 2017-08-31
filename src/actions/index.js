@@ -2,6 +2,7 @@ import * as APIUtil from '../utils/api';
 
 export const RECEIVE_POSTS = "RECEIVE_POSTS"
 export const RECEIVE_CATEGORIES = "RECEIVE_CATEGORIES"
+export const ADD_POST = "ADD_POST"
 
 export const receivePosts = (received_posts) => ({
   type: RECEIVE_POSTS,
@@ -21,4 +22,13 @@ export const fetchCategories = () => dispatch => (
   APIUtil.fetchCategories().then(
     categories => dispatch(receiveCategories(categories))
   )
+)
+
+export const addPost = (new_post) => ({
+  type: ADD_POST,
+  new_post
+})
+
+export const fetchNewPost = (title, body, author) => dispatch => (
+  APIUtil.addPost(title, body, author).then(post => dispatch(addPost(post)))
 )
