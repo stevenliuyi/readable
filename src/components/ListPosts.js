@@ -7,30 +7,40 @@ import FaEllipsisH from 'react-icons/lib/fa/ellipsis-h'
 import MdAddCircle from 'react-icons/lib/md/add-circle'
 import convertTimestamp from '../utils/convert-timestamp'
 import EditPost from './EditPost'
-import { fetchVotePost } from '../actions'
+import { fetchVotePost, receivePosts, updateOrderMethod } from '../actions'
 
 class ListPosts extends Component {
   state = {
     add_post: false
   }
 
-  handlePosts = (posts, category, order) => {
+  handlePosts = (posts, category) => {
     let display_posts = null
+
+    // order posts
+    switch(this.props.order_method) {
+      case "time":
+        display_posts = posts.sort((a,b) => (b.timestamp - a.timestamp))
+        break
+      case "votes":
+        display_posts = posts.sort((a,b) => (b.voteScore - a.voteScore))
+        break
+      default:
+        display_posts = posts
+    }
+
+    // change order method to prevent post from moving to 
+    // other location when its vote changes
+    if (this.props.order_method !== 'none') {
+      this.props.dispatch(receivePosts(posts))
+      this.props.dispatch(updateOrderMethod('none'))
+    }
   
     // filter posts based on category
     if ( category === undefined ) {
       display_posts = posts
     } else {
       display_posts = posts.filter( post => post.category === category )
-    }
-  
-    // order posts
-    switch(order) {
-      case "time":
-        display_posts = display_posts.sort((a,b) => (b.timestamp - a.timestamp))
-        break
-      default: // order by votes created by default
-        display_posts = display_posts.sort((a,b) => (b.voteScore - a.voteScore))
     }
   
     return display_posts
@@ -51,8 +61,7 @@ class ListPosts extends Component {
           {
             Array.isArray(this.props.posts) &&
               this.handlePosts(this.props.posts,
-                          this.props.category,
-                          this.props.order).map( (post) => (
+                          this.props.category).map( (post) => (
                 <ListGroupItem>
                   <Row>
                     <Col xs={11}>
@@ -110,7 +119,10 @@ class ListPosts extends Component {
 
 
 const mapStateToProps = (state) => ({
-  posts: state.posts
+  posts: state.posts,
+  order_method: state.order_method
 })
 
-export default connect(mapStateToProps)(ListPosts)
+export default connect(mapStateToProps, null, null, {
+  pure: false
+})(ListPosts)

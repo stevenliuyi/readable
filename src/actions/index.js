@@ -4,6 +4,7 @@ export const RECEIVE_POSTS = "RECEIVE_POSTS"
 export const RECEIVE_CATEGORIES = "RECEIVE_CATEGORIES"
 export const ADD_POST = "ADD_POST"
 export const EDIT_POST = "EDIT_POST"
+export const UPDATE_ORDER_METHOD = "UPDATE_ORDER_METHOD"
 
 export const receivePosts = (received_posts) => ({
   type: RECEIVE_POSTS,
@@ -42,3 +43,8 @@ export const editPost = (edited_post) => ({
 export const fetchVotePost = (post_id, option) => dispatch => (
   APIUtil.votePost(post_id, option).then(post => dispatch(editPost(post)))
 )
+
+export const updateOrderMethod = (method) => ({
+  type: UPDATE_ORDER_METHOD,
+  method
+})

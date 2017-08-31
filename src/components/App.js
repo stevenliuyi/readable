@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { fetchPosts, fetchCategories } from '../actions'
+import { fetchPosts, fetchCategories, updateOrderMethod } from '../actions'
 import { Route } from 'react-router-dom'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -11,10 +11,6 @@ import ListPosts from './ListPosts'
 import Categories from './Categories'
 
 class App extends Component {
-  state = {
-    order_method: 'votes'
-  }
-
   componentWillMount() {
     this.props.dispatch(fetchPosts())
     this.props.dispatch(fetchCategories())
@@ -42,7 +38,8 @@ class App extends Component {
                   <DropdownButton bsSize="small" bsStyle="primary" title="order by">
                     {
                       ['votes', 'time'].map(order_method =>
-                        <MenuItem onClick={ () => this.setState({order_method}) }>
+                        <MenuItem onClick={ () =>
+                            this.props.dispatch(updateOrderMethod(order_method)) }>
                           { order_method }
                         </MenuItem>
                       )
@@ -51,12 +48,10 @@ class App extends Component {
                 </Col>
               </Row>
               <Route exact path="/" render={ () =>
-                <ListPosts order={ this.state.order_method } />
+                <ListPosts />
                 } />
               <Route exact path="/:category" render={ ({match}) => 
-                <ListPosts
-                  order={ this.state.order_method }
-                  category={ match.params.category } />
+                <ListPosts category={ match.params.category } />
                 } />
             </div>
           )} />

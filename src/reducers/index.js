@@ -2,7 +2,8 @@ import { combineReducers } from 'redux'
 import { RECEIVE_POSTS,
          ADD_POST,
          EDIT_POST,
-         RECEIVE_CATEGORIES } from '../actions';
+         RECEIVE_CATEGORIES,
+         UPDATE_ORDER_METHOD} from '../actions';
 
 function posts(state = {}, action) {
   
@@ -33,7 +34,19 @@ function categories(state ={}, action) {
   }
 }
 
+
+function order_method(state="votes", action) {
+  const { method } = action
+  switch (action.type) {
+    case UPDATE_ORDER_METHOD:
+      return method
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   posts,
-  categories
+  categories,
+  order_method
 })
