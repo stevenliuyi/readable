@@ -6,13 +6,26 @@ import FaCaretUp from 'react-icons/lib/fa/caret-up'
 import FaEllipsisH from 'react-icons/lib/fa/ellipsis-h'
 import convertTimestamp from '../utils/convert-timestamp'
 
-const handlePosts = (posts, category) => {
+const handlePosts = (posts, category, order) => {
+  let display_posts = null
+
   // filter posts based on category
   if ( category === undefined ) {
-    return posts
+    display_posts = posts
   } else {
-    return posts.filter( post => post.category === category )
+    display_posts = posts.filter( post => post.category === category )
   }
+
+  // order posts
+  switch(order) {
+    case "time":
+      display_posts = display_posts.sort((a,b) => (b.timestamp - a.timestamp))
+      break
+    default: // order by votes created by default
+      display_posts = display_posts.sort((a,b) => (b.voteScore - a.voteScore))
+  }
+
+  return display_posts
 }
 
 const ListPosts = (props) => (
@@ -20,7 +33,9 @@ const ListPosts = (props) => (
   <ListGroup>
     {
       Array.isArray(props.posts) &&
-        handlePosts(props.posts, props.category).map( (post) => (
+        handlePosts(props.posts,
+                    props.category,
+                    props.order).map( (post) => (
           <ListGroupItem>
             <Row>
               <Col xs={11}>

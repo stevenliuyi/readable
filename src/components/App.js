@@ -11,6 +11,10 @@ import ListPosts from './ListPosts'
 import Categories from './Categories'
 
 class App extends Component {
+  state = {
+    order_method: 'votes'
+  }
+
   componentWillMount() {
     this.props.dispatch(fetchPosts())
     this.props.dispatch(fetchCategories())
@@ -35,17 +39,24 @@ class App extends Component {
                     } />
                 </Col>
                 <Col xs={2}>
-                  <DropdownButton bsSize="small" bsStyle="primary" title="sort by">
-                    <MenuItem eventKey="score">score</MenuItem>
-                    <MenuItem eventKey="time">time</MenuItem>
+                  <DropdownButton bsSize="small" bsStyle="primary" title="order by">
+                    {
+                      ['votes', 'time'].map(order_method =>
+                        <MenuItem onClick={ () => this.setState({order_method}) }>
+                          { order_method }
+                        </MenuItem>
+                      )
+                    }
                   </DropdownButton>
                 </Col>
               </Row>
               <Route exact path="/" render={ () =>
-                <ListPosts />
+                <ListPosts order={ this.state.order_method } />
                 } />
               <Route exact path="/:category" render={ ({match}) => 
-                <ListPosts category={ match.params.category } />
+                <ListPosts
+                  order={ this.state.order_method }
+                  category={ match.params.category } />
                 } />
             </div>
           )} />
