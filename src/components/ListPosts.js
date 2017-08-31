@@ -77,13 +77,17 @@ class ListPosts extends Component {
               </ListGroupItem>
           }
         </ListGroup>
-        <div className="add-post-icon">
-          <MdAddCircle
-            color={'#337AB7'}
-            size={40}
-            onClick={ () => this.setState({ add_post: true })}
-            />
-        </div>
+
+        { // add post icon
+          !this.state.add_post &&
+          <div className="add-post-icon">
+            <MdAddCircle
+              color={'#337AB7'}
+              size={40}
+              onClick={ () => this.setState({ add_post: true })}
+              />
+          </div>
+        }
       </div>
     )
   }

@@ -43,7 +43,7 @@ class EditPost extends Component {
             type="submit">
             Submit</Button>
           <Button
-            onClick={ () => this.props.onClose }>
+            onClick={ () => this.props.onClose() }>
             Cancel</Button>
         </ButtonToolbar>
       </form>
