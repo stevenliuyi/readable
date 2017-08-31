@@ -15,6 +15,11 @@ class App extends Component {
     this.props.dispatch(fetchPosts())
     this.props.dispatch(fetchCategories())
   }
+
+  order_methods = ['highest votes',
+                   'lowest votes',
+                   'most recent',
+                   'oldest']
   
   render() {
     return (
@@ -35,9 +40,9 @@ class App extends Component {
                     } />
                 </Col>
                 <Col xs={2}>
-                  <DropdownButton bsSize="small" bsStyle="primary" title="order by">
+                  <DropdownButton bsSize="small" bsStyle="primary" title="sort posts">
                     {
-                      ['votes', 'time'].map(order_method =>
+                      this.order_methods.map(order_method =>
                         <MenuItem onClick={ () =>
                             this.props.dispatch(updateOrderMethod(order_method)) }>
                           { order_method }

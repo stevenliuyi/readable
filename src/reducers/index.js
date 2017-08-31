@@ -35,7 +35,7 @@ function categories(state ={}, action) {
 }
 
 
-function order_method(state="votes", action) {
+function order_method(state="highest votes", action) {
   const { method } = action
   switch (action.type) {
     case UPDATE_ORDER_METHOD:

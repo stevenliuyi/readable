@@ -19,11 +19,17 @@ class ListPosts extends Component {
 
     // order posts
     switch(this.props.order_method) {
-      case "time":
+      case "most recent":
         display_posts = posts.sort((a,b) => (b.timestamp - a.timestamp))
         break
-      case "votes":
+      case "oldest":
+        display_posts = posts.sort((a,b) => (a.timestamp - b.timestamp))
+        break
+      case "highest votes":
         display_posts = posts.sort((a,b) => (b.voteScore - a.voteScore))
+        break
+      case "lowest votes":
+        display_posts = posts.sort((a,b) => (a.voteScore - b.voteScore))
         break
       default:
         display_posts = posts
