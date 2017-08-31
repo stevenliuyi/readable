@@ -75,7 +75,7 @@ class ListPosts extends Component {
                       <p>{ post.body }</p>
                       <p className="timestamp-text"><Label>{ post.author }</Label>&nbsp;&nbsp;&nbsp;{ convertTimestamp(post.timestamp) }</p>                  
                     </Col>
-                    <Col xs={1}>
+                    <Col xs={1} className="no-padding">
                       <div className="vote-arrow">
                         <FaCaretUp
                           size={30}

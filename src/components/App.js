@@ -25,7 +25,7 @@ class App extends Component {
     return (
       <Grid>
         <Col xsHidden md={1} />
-        <Col xs={12} md={10}>
+        <Col xs={12} md={10} className="no-padding">
           <PageHeader>Readable</PageHeader>
           { /* root or category paths */ }
           <Route exact path="/([^/]*)" render={ () => (
@@ -39,7 +39,7 @@ class App extends Component {
                     <Categories category={ match.params.category } />
                     } />
                 </Col>
-                <Col xs={2}>
+                <Col xs={2} className="no-padding">
                   <DropdownButton bsSize="small" bsStyle="primary" title="sort posts">
                     {
                       this.order_methods.map(order_method =>
