@@ -1,15 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchNewPost } from '../actions'
 import { Row, Col, ListGroup, ListGroupItem, Label } from 'react-bootstrap'
-import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
-import { ButtonToolbar, Button } from 'react-bootstrap'
 import FaCaretDown from 'react-icons/lib/fa/caret-down'
 import FaCaretUp from 'react-icons/lib/fa/caret-up'
 import FaEllipsisH from 'react-icons/lib/fa/ellipsis-h'
 import MdAddCircle from 'react-icons/lib/md/add-circle'
 import convertTimestamp from '../utils/convert-timestamp'
-import serializeForm from 'form-serialize'
+import EditPost from './EditPost'
 
 class ListPosts extends Component {
   state = {
@@ -38,10 +35,7 @@ class ListPosts extends Component {
     return display_posts
   }
 
-  submitPost = (e) => {
-    e.preventDefault()
-    const values = serializeForm(e.target, { hash: true })
-    this.props.dispatch(fetchNewPost(values.title, values.body, values.author))
+  hideAddPostForm = () => {
     this.setState({ add_post: false })
   }
 
@@ -79,37 +73,7 @@ class ListPosts extends Component {
             this.state.add_post &&
               <ListGroupItem>
                 <h2>New Post</h2>
-                <form onSubmit={ this.submitPost }>
-                  <FormGroup>
-                     <ControlLabel>Title</ControlLabel>
-                     <FormControl
-                       type="text"
-                       name="title"
-                       placeholder="Enter title"
-                     />
-                     <ControlLabel>Post</ControlLabel>
-                     <FormControl
-                       componentClass="textarea"
-                       name="body"
-                       placeholder="Enter post contents"
-                     />
-                     <ControlLabel>Author</ControlLabel>
-                     <FormControl
-                       type="text"
-                       name="author"
-                       placeholder="Enter author name"
-                     />
-                  </FormGroup>
-                  <ButtonToolbar>
-                    <Button
-                      bsStyle="primary"
-                      type="submit">
-                      Submit</Button>
-                    <Button
-                      onClick={ () => this.setState({ add_post: false })}>
-                      Cancel</Button>
-                  </ButtonToolbar>
-                </form>
+                <EditPost onClose={ this.hideAddPostForm } />
               </ListGroupItem>
           }
         </ListGroup>
