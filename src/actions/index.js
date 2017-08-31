@@ -30,8 +30,8 @@ export const addPost = (new_post) => ({
   new_post
 })
 
-export const fetchNewPost = (title, body, author) => dispatch => (
-  APIUtil.addPost(title, body, author).then(post => dispatch(addPost(post)))
+export const fetchNewPost = (options) => dispatch => (
+  APIUtil.addPost(options).then(post => dispatch(addPost(post)))
 )
 
 export const editPost = (edited_post) => ({

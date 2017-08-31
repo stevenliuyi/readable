@@ -10,7 +10,7 @@ class EditPost extends Component {
   submitPost = (e) => {
     e.preventDefault()
     const values = serializeForm(e.target, { hash: true })
-    this.props.dispatch(fetchNewPost(values.title, values.body, values.author))
+    this.props.dispatch(fetchNewPost(values))
     this.props.onClose()
   }
 
@@ -36,6 +36,15 @@ class EditPost extends Component {
              name="author"
              placeholder="Enter author name"
            />
+           <ControlLabel>Category</ControlLabel>
+           <FormControl
+             componentClass="select"
+             name="category"
+             placeholder={ this.props.category[0].name }>
+             { this.props.category.map( (cat) => ( 
+               <option value={ cat.name }>{ cat.name }</option>      
+               ))}
+           </FormControl>
         </FormGroup>
         <ButtonToolbar>
           <Button
@@ -51,4 +60,8 @@ class EditPost extends Component {
   }
 }
 
-export default connect()(EditPost)
+const mapStateToProps = (state) => (
+  { category: state.categories }
+)
+
+export default connect(mapStateToProps)(EditPost)

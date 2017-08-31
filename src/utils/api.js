@@ -14,17 +14,17 @@ export const fetchCategories = () =>
   fetch(`${api_url}/categories`, { headers })
     .then(res => res.json()).then(data => data.categories)
 
-export const addPost = (title, body, author) => 
+export const addPost = (options) => 
   fetch(`${api_url}/posts`, {
     method: 'POST',
     headers,
     body: JSON.stringify({
         id: uuid.v4(),
         timestamp: Date.now(),
-        title: title,
-        body: body,
-        author: author,
-        category: 'react'
+        title: options.title,
+        body: options.body,
+        author: options.author,
+        category: options.category
     })
   }).then(res => res.json())
 
