@@ -23,6 +23,11 @@
   to { transform: rotate(360deg); }
 }
 
+/* prevent scrollbar from changing the width */
+html {
+  overflow-y: scroll;
+}
+
 .category-bar {
   padding-bottom: 30px;
 }
