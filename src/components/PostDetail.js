@@ -6,13 +6,11 @@ import FaCaretUp from 'react-icons/lib/fa/caret-up'
 import MdAddCircle from 'react-icons/lib/md/add-circle'
 import MdEdit from 'react-icons/lib/md/edit'
 import MdDelete from 'react-icons/lib/md/delete'
-import convertTimestamp from '../utils/convert-timestamp'
+import { convertTimestamp } from '../utils/helper'
 import EditComment from './EditComment'
 import { fetchComments,
          fetchVotePost,
-         fetchVoteComment,
-         receiveComments,
-         updateOrderMethod } from '../actions'
+         fetchVoteComment } from '../actions'
 
 class PostDetail extends Component {
   state = {
@@ -22,31 +20,6 @@ class PostDetail extends Component {
   
   componentWillMount() {
     this.props.dispatch(fetchComments(this.props.post_id))    
-    this.props.dispatch(updateOrderMethod('highest votes'))
-  }
-
-  handleComments = (comments) => {
-    let display_comments = null
-    // order comments
-    switch(this.props.order_method) {
-      case "most recent":
-        display_comments = comments.sort((a,b) => (b.timestamp - a.timestamp))
-        break
-      case "oldest":
-        display_comments = comments.sort((a,b) => (a.timestamp - b.timestamp))
-        break
-      case "highest votes":
-        display_comments = comments.sort((a,b) => (b.voteScore - a.voteScore))
-        break
-      case "lowest votes":
-        display_comments = comments.sort((a,b) => (a.voteScore - b.voteScore))
-        break
-      default:
-        display_comments = comments
-    }
-
-    return display_comments
-    
   }
 
   voteOnPost = (id, option) => {
@@ -114,7 +87,7 @@ class PostDetail extends Component {
         { /* comments */ }
         <ListGroup>
           { Array.isArray(this.props.comments) &&
-            this.handleComments(this.props.comments).map( comment => {
+            this.props.comments.map( comment => {
               if (this.state.edit_comment !== comment.id) {
                 return (
                   <ListGroupItem>
@@ -199,8 +172,7 @@ const mapStateToProps = (state, props) => {
       null
   return {
     post,
-    comments: state.comments,
-    order_method: state.order_method
+    comments: state.comments
   }
 }
 

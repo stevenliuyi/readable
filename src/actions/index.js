@@ -7,7 +7,8 @@ export const EDIT_POST = "EDIT_POST"
 export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS"
 export const ADD_COMMENT = "ADD_COMMENT"
 export const EDIT_COMMENT = "EDIT_COMMENT"
-export const UPDATE_ORDER_METHOD = "UPDATE_ORDER_METHOD"
+export const UPDATE_POSTS_ORDER = "UPDATE_POSTS_ORDER"
+export const UPDATE_COMMENTS_ORDER = "UPDATE_COMMENTS_ORDER"
 
 export const receivePosts = (received_posts) => ({
   type: RECEIVE_POSTS,
@@ -47,11 +48,6 @@ export const fetchVotePost = (post_id, option) => dispatch => (
   APIUtil.votePost(post_id, option).then(post => dispatch(editPost(post)))
 )
 
-export const updateOrderMethod = (method) => ({
-  type: UPDATE_ORDER_METHOD,
-  method
-})
-
 export const receiveComments = (received_comments) => ({
   type: RECEIVE_COMMENTS,
   received_comments
@@ -82,3 +78,13 @@ export const fetchNewComment = (options) => dispatch => (
 export const fetchEditComment = (comment_id, options) => dispatch => (
   APIUtil.editComment(comment_id, options).then(comment => dispatch(editComment(comment)))
 )
+
+export const updatePostsOrder = (order_method) => ({
+  type: UPDATE_POSTS_ORDER,
+  order_method
+})
+
+export const updateCommentsOrder = (order_method) => ({
+  type: UPDATE_COMMENTS_ORDER,
+  order_method
+})

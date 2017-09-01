@@ -3,16 +3,10 @@ import { connect } from 'react-redux'
 import { fetchCategories } from '../actions'
 import { Nav, NavItem } from 'react-bootstrap'
 import { IndexLinkContainer } from 'react-router-bootstrap'
-import { updateOrderMethod } from '../actions'
 
 class Categories extends Component {
   componentWillMount() {
     this.props.dispatch(fetchCategories())
-  }
-
-  componentWillUpdate() {
-    /* ordered by votes by default */
-    this.props.dispatch(updateOrderMethod('highest votes'))
   }
 
   render() {
