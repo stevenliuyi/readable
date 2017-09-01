@@ -32,7 +32,7 @@ class App extends Component {
           <Route exact path="/([^/]*)(/[^/]*)?" render={ () => (
             <div>
               <Row className="category-bar">
-                <Col xs={10}>
+                <Col xs={12} sm={10}>
                   <Route exact path="/" render={ () =>
                     <Categories />
                     } />
@@ -43,7 +43,7 @@ class App extends Component {
                     <Categories />
                     } />
                 </Col>
-                <Col xs={2} className="no-padding">
+                <Col xs={12} sm={2}>
                   <DropdownButton bsSize="small" bsStyle="primary" title="sort posts">
                     {
                       this.order_methods.map(order_method =>
