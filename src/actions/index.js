@@ -48,6 +48,14 @@ export const fetchVotePost = (post_id, option) => dispatch => (
   APIUtil.votePost(post_id, option).then(post => dispatch(editPost(post)))
 )
 
+export const fetchEditPost = (post_id, options) => dispatch => (
+  APIUtil.editPost(post_id, options).then(post => dispatch(editPost(post)))
+)
+
+export const deletePost = (post_id) => dispatch => (
+  APIUtil.deletePost(post_id).then(post => dispatch(editPost(post)))
+)
+
 export const receiveComments = (received_comments) => ({
   type: RECEIVE_COMMENTS,
   received_comments
@@ -77,6 +85,10 @@ export const fetchNewComment = (options) => dispatch => (
 
 export const fetchEditComment = (comment_id, options) => dispatch => (
   APIUtil.editComment(comment_id, options).then(comment => dispatch(editComment(comment)))
+)
+
+export const deleteComment = (comment_id) => dispatch => (
+  APIUtil.deleteComment(comment_id).then(comment => dispatch(editComment(comment)))
 )
 
 export const updatePostsOrder = (order_method) => ({

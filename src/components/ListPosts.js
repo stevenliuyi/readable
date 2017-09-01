@@ -24,6 +24,9 @@ class ListPosts extends Component {
     } else {
       display_posts = posts.filter( post => post.category === category )
     }
+
+    // remove deleted posts
+    display_posts = display_posts.filter( post => !post.deleted )
   
     return display_posts
   }

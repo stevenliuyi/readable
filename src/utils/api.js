@@ -35,6 +35,25 @@ export const votePost = (post_id, option) =>
     body: JSON.stringify({ option })
   }).then(res => res.json())
 
+export const editPost = (post_id, options) =>
+  fetch(`${api_url}/posts/${post_id}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({
+        timestamp: Date.now(),
+        title: options.title,
+        body: options.body,
+        author: options.author,
+        category: options.category
+    })
+  }).then(res => res.json())
+
+export const deletePost = (post_id) =>
+  fetch(`${api_url}/posts/${post_id}`, {
+    method: 'DELETE',
+    headers
+    }).then(res => res.json())
+
 export const fetchComments = (post_id) =>
   fetch(`${api_url}/posts/${post_id}/comments`, { headers })
     .then(res => res.json())
@@ -69,3 +88,9 @@ export const addComment = (options) =>
         author: options.author,
     })
   }).then(res => res.json())
+
+export const deleteComment = (comment_id) =>
+  fetch(`${api_url}/comments/${comment_id}`, {
+    method: 'DELETE',
+    headers
+    }).then(res => res.json())

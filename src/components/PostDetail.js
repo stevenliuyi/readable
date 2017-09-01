@@ -8,12 +8,17 @@ import MdEdit from 'react-icons/lib/md/edit'
 import MdDelete from 'react-icons/lib/md/delete'
 import { convertTimestamp } from '../utils/helper'
 import EditComment from './EditComment'
+import EditPost from './EditPost'
 import { fetchComments,
          fetchVotePost,
-         fetchVoteComment } from '../actions'
+         fetchVoteComment,
+         deletePost,
+         deleteComment } from '../actions'
+import PropTypes from 'prop-types'
 
 class PostDetail extends Component {
   state = {
+    edit_post: false,
     add_comment: false,
     edit_comment: null
   }
@@ -30,6 +35,10 @@ class PostDetail extends Component {
     this.props.dispatch(fetchVoteComment(id, option))
   }
 
+  hideEditPostForm = () => {
+    this.setState({ edit_post: false })
+  }
+
   hideAddCommentForm = () => {
     this.setState({ add_comment: false })
   }
@@ -38,8 +47,22 @@ class PostDetail extends Component {
     this.setState({ edit_comment: null })
   }
 
+  editPost = () => {
+    this.setState({ edit_post: true })
+  }
+
   editComment = (comment_id) => {
     this.setState({ edit_comment: comment_id })
+  }
+
+  deletePost = () => {
+    this.props.dispatch(deletePost(this.props.post_id))
+    // back to the root page after deletion
+    this.context.router.history.push("/")
+  }
+  
+  deleteComment = (comment_id) => {
+    this.props.dispatch(deleteComment(comment_id))
   }
 
   render() {
@@ -47,38 +70,56 @@ class PostDetail extends Component {
       <div>
         { this.props.post !== null &&
           <ListGroup>
-            <ListGroupItem>
-              <Row>
-                <Col xs={11}>
-                  <h2>{ this.props.post.title }</h2>
-                  <p>{ this.props.post.body }</p>
-                  <Row>
-                    <Col xs={6}>
-                      <MdEdit size={18} />
-                      <MdDelete size={18} />
-                    </Col>
-                    <Col xs={6}>
-                      <p className="timestamp-text"><Label>{ this.props.post.author }</Label>&nbsp;&nbsp;&nbsp;{ convertTimestamp(this.props.post.timestamp) }</p>                  
-                    </Col>
-                  </Row>
-                </Col>
-                <Col xs={1} className="no-padding">
-                  <div className="vote-arrow">
-                    <FaCaretUp
-                      size={30}
-                      onClick={ () => this.voteOnPost(this.props.post.id, 'upVote') }
-                    />
-                  </div>
-                  <div className="vote-score">{ this.props.post.voteScore }</div>
-                  <div className="vote-arrow">
-                    <FaCaretDown
-                      size={30}
-                      onClick={ () => this.voteOnPost(this.props.post.id, 'downVote') }
-                    />
-                  </div>
-                </Col>
-              </Row>
-            </ListGroupItem>
+            { !this.state.edit_post &&
+              <ListGroupItem>
+                <Row>
+                  <Col xs={11}>
+                    <h2>{ this.props.post.title }</h2>
+                    <p>{ this.props.post.body }</p>
+                    <Row>
+                      <Col xs={6}>
+                        <MdEdit
+                          className="edit-icon"
+                          onClick={ () => this.editPost() }
+                          size={18} />
+                        <MdDelete
+                          className="delete-icon"
+                          onClick={ () => this.deletePost() }
+                          size={18} />
+                      </Col>
+                      <Col xs={6}>
+                        <p className="timestamp-text"><Label>{ this.props.post.author }</Label>&nbsp;&nbsp;&nbsp;{ convertTimestamp(this.props.post.timestamp) }</p>                  
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col xs={1} className="no-padding">
+                    <div className="vote-arrow">
+                      <FaCaretUp
+                        size={30}
+                        onClick={ () => this.voteOnPost(this.props.post.id, 'upVote') }
+                      />
+                    </div>
+                    <div className="vote-score">{ this.props.post.voteScore }</div>
+                    <div className="vote-arrow">
+                      <FaCaretDown
+                        size={30}
+                        onClick={ () => this.voteOnPost(this.props.post.id, 'downVote') }
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </ListGroupItem>
+            }
+
+            { // edit post
+              this.state.edit_post &&
+              <ListGroupItem>
+                <EditPost
+                  onClose={ this.hideEditPostForm }
+                  post={ this.props.post }
+                />
+              </ListGroupItem>
+            }
           </ListGroup>
 
         }
@@ -87,7 +128,7 @@ class PostDetail extends Component {
         { /* comments */ }
         <ListGroup>
           { Array.isArray(this.props.comments) &&
-            this.props.comments.map( comment => {
+            this.props.comments.filter( comment => !comment.deleted).map( comment => {
               if (this.state.edit_comment !== comment.id) {
                 return (
                   <ListGroupItem>
@@ -100,7 +141,10 @@ class PostDetail extends Component {
                               className="edit-icon"
                               onClick={ () => this.editComment(comment.id) }
                               size={18} />
-                            <MdDelete size={18} />
+                            <MdDelete
+                              className="delete-icon"
+                              onClick={ () => this.deleteComment(comment.id) }
+                              size={18} />
                           </Col>
                           <Col xs={6}>
                             <p className="timestamp-text"><Label>{ comment.author }</Label>&nbsp;&nbsp;&nbsp;{ convertTimestamp(comment.timestamp) }</p>                  
@@ -164,6 +208,10 @@ class PostDetail extends Component {
       </div>
     )
   }
+}
+
+PostDetail.contextTypes = {
+  router: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, props) => {
