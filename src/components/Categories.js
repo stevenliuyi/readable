@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { fetchCategories } from '../actions'
 import { Nav, NavItem } from 'react-bootstrap'
 import { IndexLinkContainer } from 'react-router-bootstrap'
+import { updateOrderMethod } from '../actions'
 
 class Categories extends Component {
   componentWillMount() {
@@ -21,7 +22,11 @@ class Categories extends Component {
         { Array.isArray(this.props.categories) &&
             this.props.categories.map((cat) => (
               <IndexLinkContainer to={ `/${cat.path}` }>
-                <NavItem active={ this.props.category === cat.name }>
+                <NavItem
+                  active={ this.props.category === cat.name }
+                  onClick={ 
+                    /* ordered by votes by default */
+                    this.props.dispatch(updateOrderMethod('highest votes'))} >
                   { cat.name }
                 </NavItem>
               </IndexLinkContainer>
