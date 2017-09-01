@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, ListGroup, ListGroupItem, Label } from 'react-bootstrap'
+import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import FaCaretDown from 'react-icons/lib/fa/caret-down'
 import FaCaretUp from 'react-icons/lib/fa/caret-up'
 import MdAddCircle from 'react-icons/lib/md/add-circle'
@@ -80,14 +81,24 @@ class PostDetail extends Component {
                     <p>{ this.props.post.body }</p>
                     <Row>
                       <Col xs={6}>
-                        <MdEdit
-                          className="edit-icon"
-                          onClick={ () => this.editPost() }
-                          size={18} />
-                        <MdDelete
-                          className="delete-icon"
-                          onClick={ () => this.deletePost() }
-                          size={18} />
+                        <OverlayTrigger
+                          placement="bottom"
+                          overlay={<Tooltip>edit post</Tooltip>}
+                        >
+                          <MdEdit
+                            className="edit-icon"
+                            onClick={ () => this.editPost() }
+                            size={18} />
+                        </OverlayTrigger>
+                        <OverlayTrigger
+                          placement="bottom"
+                          overlay={<Tooltip>delete post</Tooltip>}
+                        >
+                          <MdDelete
+                            className="delete-icon"
+                            onClick={ () => this.deletePost() }
+                            size={18} />
+                        </OverlayTrigger>
                       </Col>
                       <Col xs={6}>
                         <p className="timestamp-text"><Label>{ this.props.post.author }</Label>&nbsp;&nbsp;&nbsp;{ convertTimestamp(this.props.post.timestamp) }</p>                  
@@ -96,17 +107,27 @@ class PostDetail extends Component {
                   </Col>
                   <Col xs={1} className="no-padding">
                     <div className="vote-arrow">
-                      <FaCaretUp
-                        size={30}
-                        onClick={ () => this.voteOnPost(this.props.post.id, 'upVote') }
-                      />
+                      <OverlayTrigger
+                        placement="left"
+                        overlay={<Tooltip>upvote</Tooltip>}
+                      >
+                        <FaCaretUp
+                          size={30}
+                          onClick={ () => this.voteOnPost(this.props.post.id, 'upVote') }
+                        />
+                      </OverlayTrigger>
                     </div>
                     <div className="vote-score">{ this.props.post.voteScore }</div>
                     <div className="vote-arrow">
-                      <FaCaretDown
-                        size={30}
-                        onClick={ () => this.voteOnPost(this.props.post.id, 'downVote') }
-                      />
+                      <OverlayTrigger
+                        placement="left"
+                        overlay={<Tooltip>downvote</Tooltip>}
+                      >
+                        <FaCaretDown
+                          size={30}
+                          onClick={ () => this.voteOnPost(this.props.post.id, 'downVote') }
+                        />
+                      </OverlayTrigger>
                     </div>
                   </Col>
                 </Row>
@@ -143,14 +164,24 @@ class PostDetail extends Component {
                         <p>{ comment.body }</p>
                         <Row>
                           <Col xs={6}>
-                            <MdEdit
-                              className="edit-icon"
-                              onClick={ () => this.editComment(comment.id) }
-                              size={18} />
-                            <MdDelete
-                              className="delete-icon"
-                              onClick={ () => this.deleteComment(comment.id) }
-                              size={18} />
+                            <OverlayTrigger
+                              placement="bottom"
+                              overlay={<Tooltip>edit comment</Tooltip>}
+                            >
+                              <MdEdit
+                                className="edit-icon"
+                                onClick={ () => this.editComment(comment.id) }
+                                size={18} />
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                              placement="bottom"
+                              overlay={<Tooltip>delete comment</Tooltip>}
+                            >
+                              <MdDelete
+                                className="delete-icon"
+                                onClick={ () => this.deleteComment(comment.id) }
+                                size={18} />
+                            </OverlayTrigger>
                           </Col>
                           <Col xs={6}>
                             <p className="timestamp-text"><Label>{ comment.author }</Label>&nbsp;&nbsp;&nbsp;{ convertTimestamp(comment.timestamp) }</p>                  
@@ -159,17 +190,27 @@ class PostDetail extends Component {
                       </Col>
                       <Col xs={1} className="no-padding">
                         <div className="vote-arrow">
-                          <FaCaretUp
-                            size={30}
-                            onClick={ () => this.voteOnComment(comment.id, 'upVote') }
-                          />
+                          <OverlayTrigger
+                            placement="left"
+                            overlay={<Tooltip>upvote</Tooltip>}
+                          >
+                            <FaCaretUp
+                              size={30}
+                              onClick={ () => this.voteOnComment(comment.id, 'upVote') }
+                            />
+                          </OverlayTrigger>
                         </div>
                         <div className="vote-score">{ comment.voteScore }</div>
                         <div className="vote-arrow">
-                          <FaCaretDown
-                            size={30}
-                            onClick={ () => this.voteOnComment(comment.id, 'downVote') }
-                          />
+                          <OverlayTrigger
+                            placement="left"
+                            overlay={<Tooltip>downvote</Tooltip>}
+                          >
+                            <FaCaretDown
+                              size={30}
+                              onClick={ () => this.voteOnComment(comment.id, 'downVote') }
+                            />
+                          </OverlayTrigger>
                         </div>
                       </Col>
                     </Row>
@@ -204,11 +245,16 @@ class PostDetail extends Component {
         { // add comment icon
           !this.state.add_comment &&
           <div className="add-icon">
-            <MdAddCircle
-              color={'#337AB7'}
-              size={40}
-              onClick={ () => this.setState({ add_comment: true })}
-              />
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>add new comment</Tooltip>}
+            >
+              <MdAddCircle
+                color={'#337AB7'}
+                size={40}
+                onClick={ () => this.setState({ add_comment: true })}
+                />
+            </OverlayTrigger>
           </div>
         }
       </div>

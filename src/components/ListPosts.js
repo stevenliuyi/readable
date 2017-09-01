@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, ListGroup, ListGroupItem, Label } from 'react-bootstrap'
+import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import FaCaretDown from 'react-icons/lib/fa/caret-down'
 import FaCaretUp from 'react-icons/lib/fa/caret-up'
 import FaEllipsisH from 'react-icons/lib/fa/ellipsis-h'
@@ -56,23 +57,38 @@ class ListPosts extends Component {
                     </Col>
                     <Col xs={1} className="no-padding">
                       <div className="vote-arrow">
-                        <FaCaretUp
-                          size={30}
-                          onClick={ () => this.voteOnPost(post.id, 'upVote') }
-                        />
+                        <OverlayTrigger
+                          placement="left"
+                          overlay={<Tooltip>upvote</Tooltip>}
+                        >
+                          <FaCaretUp
+                            size={30}
+                            onClick={ () => this.voteOnPost(post.id, 'upVote') }
+                          />
+                        </OverlayTrigger>
                       </div>
                       <div className="vote-score">{ post.voteScore }</div>
                       <div className="vote-arrow">
-                        <FaCaretDown
-                          size={30}
-                          onClick={ () => this.voteOnPost(post.id, 'downVote') }
-                        />
+                        <OverlayTrigger
+                          placement="left"
+                          overlay={<Tooltip>downvote</Tooltip>}
+                        >
+                          <FaCaretDown
+                            size={30}
+                            onClick={ () => this.voteOnPost(post.id, 'downVote') }
+                          />
+                        </OverlayTrigger>
                       </div>
                     </Col>
                   </Row>
                   <div className="detail-icon">
                     <Link to={ `/${ post.category }/${ post.id }`}>
-                      <FaEllipsisH size={30} color={'grey'} />
+                      <OverlayTrigger
+                        placement="bottom"
+                        overlay={<Tooltip>show detail</Tooltip>}
+                      >
+                        <FaEllipsisH size={30} color={'grey'} />
+                      </OverlayTrigger>
                     </Link>
                   </div>
                 </ListGroupItem>
@@ -92,11 +108,16 @@ class ListPosts extends Component {
         { // add post icon
           !this.state.add_post &&
           <div className="add-icon">
-            <MdAddCircle
-              color={'#337AB7'}
-              size={40}
-              onClick={ () => this.setState({ add_post: true })}
-              />
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>add new post</Tooltip>}
+            >
+              <MdAddCircle
+                color={'#337AB7'}
+                size={40}
+                onClick={ () => this.setState({ add_post: true })}
+                />
+            </OverlayTrigger>
           </div>
         }
       </div>
