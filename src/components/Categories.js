@@ -10,6 +10,11 @@ class Categories extends Component {
     this.props.dispatch(fetchCategories())
   }
 
+  componentWillUpdate() {
+    /* ordered by votes by default */
+    this.props.dispatch(updateOrderMethod('highest votes'))
+  }
+
   render() {
     return (
       <Nav bsStyle="pills">
@@ -22,11 +27,7 @@ class Categories extends Component {
         { Array.isArray(this.props.categories) &&
             this.props.categories.map((cat) => (
               <IndexLinkContainer to={ `/${cat.path}` }>
-                <NavItem
-                  active={ this.props.category === cat.name }
-                  onClick={ 
-                    /* ordered by votes by default */
-                    this.props.dispatch(updateOrderMethod('highest votes'))} >
+                <NavItem active={ this.props.category === cat.name }>
                   { cat.name }
                 </NavItem>
               </IndexLinkContainer>
