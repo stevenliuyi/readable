@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { fetchPosts, fetchCategories, updateOrderMethod } from '../actions'
+import { fetchPosts, fetchCategories } from '../actions'
 import { Route } from 'react-router-dom'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import { PageHeader, Grid, Row, Col } from 'react-bootstrap'
-import { DropdownButton, MenuItem } from 'react-bootstrap'
 import ListPosts from './ListPosts'
 import Categories from './Categories'
 import PostDetail from './PostDetail'
+import SortButton from './SortButton'
 
 class App extends Component {
   componentWillMount() {
@@ -17,11 +17,6 @@ class App extends Component {
     this.props.dispatch(fetchCategories())
   }
 
-  order_methods = ['highest votes',
-                   'lowest votes',
-                   'most recent',
-                   'oldest']
-  
   render() {
     return (
       <Grid>
@@ -32,7 +27,7 @@ class App extends Component {
           <Route exact path="/([^/]*)(/[^/]*)?" render={ () => (
             <div>
               <Row className="category-bar">
-                <Col xs={12} sm={10}>
+                <Col xs={12} sm={9}>
                   <Route exact path="/" render={ () =>
                     <Categories />
                     } />
@@ -43,17 +38,13 @@ class App extends Component {
                     <Categories />
                     } />
                 </Col>
-                <Col xs={12} sm={2}>
-                  <DropdownButton bsSize="small" bsStyle="primary" title="sort posts">
-                    {
-                      this.order_methods.map(order_method =>
-                        <MenuItem onClick={ () =>
-                            this.props.dispatch(updateOrderMethod(order_method)) }>
-                          { order_method }
-                        </MenuItem>
-                      )
-                    }
-                  </DropdownButton>
+                <Col xs={12} sm={3}>
+                  <Route exact path="/([^/]*)" render={ () =>
+                    <SortButton entity="post" />
+                  } />
+                  <Route exact path="/:category/:post_id" render={ () =>
+                    <SortButton entity="comment" />
+                  } />
                 </Col>
               </Row>
               <Route exact path="/" render={ () =>

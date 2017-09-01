@@ -5,8 +5,12 @@ import FaCaretDown from 'react-icons/lib/fa/caret-down'
 import FaCaretUp from 'react-icons/lib/fa/caret-up'
 import MdAddCircle from 'react-icons/lib/md/add-circle'
 import convertTimestamp from '../utils/convert-timestamp'
-import { fetchComments, fetchVotePost, fetchVoteComment } from '../actions'
 import EditComment from './EditComment'
+import { fetchComments,
+         fetchVotePost,
+         fetchVoteComment,
+         receiveComments,
+         updateOrderMethod } from '../actions'
 
 class PostDetail extends Component {
   state = {
@@ -15,6 +19,37 @@ class PostDetail extends Component {
   
   componentWillMount() {
     this.props.dispatch(fetchComments(this.props.post_id))    
+  }
+
+  handleComments = (comments) => {
+    let display_comments = null
+    // order comments
+    switch(this.props.order_method) {
+      case "most recent":
+        display_comments = comments.sort((a,b) => (b.timestamp - a.timestamp))
+        break
+      case "oldest":
+        display_comments = comments.sort((a,b) => (a.timestamp - b.timestamp))
+        break
+      case "highest votes":
+        display_comments = comments.sort((a,b) => (b.voteScore - a.voteScore))
+        break
+      case "lowest votes":
+        display_comments = comments.sort((a,b) => (a.voteScore - b.voteScore))
+        break
+      default:
+        display_comments = comments
+    }
+
+    // change order method to prevent comment from moving to 
+    // other location when its vote changes
+    if (this.props.order_method !== 'none') {
+      this.props.dispatch(receiveComments(comments))
+      this.props.dispatch(updateOrderMethod('none'))
+    }
+    
+    return display_comments
+    
   }
 
   voteOnPost = (id, option) => {
@@ -65,7 +100,7 @@ class PostDetail extends Component {
         { /* comments */ }
         <ListGroup>
           { Array.isArray(this.props.comments) &&
-            this.props.comments.map( comment => (
+            this.handleComments(this.props.comments).map( comment => (
               <ListGroupItem>
                 <Row>
                   <Col xs={11}>
@@ -124,7 +159,8 @@ const mapStateToProps = (state, props) => {
       null
   return {
     post,
-    comments: state.comments
+    comments: state.comments,
+    order_method: state.order_method
   }
 }
 
