@@ -66,6 +66,8 @@ class PostDetail extends Component {
   }
 
   render() {
+    if (this.props.post !== null && this.props.post.deleted) return null
+
     return (
       <div>
         { this.props.post !== null &&
