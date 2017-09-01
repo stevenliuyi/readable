@@ -64,3 +64,11 @@ html {
   padding-left: 0 ! important;
   padding-right: 0 ! important;
 }
+
+.edit-icon {
+  cursor: pointer;
+}
+
+.delete-icon {
+  cursor: pointer;
+}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchNewComment } from '../actions'
+import { fetchNewComment, fetchEditComment } from '../actions'
 import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { ButtonToolbar, Button } from 'react-bootstrap'
 import serializeForm from 'form-serialize'
@@ -10,9 +10,13 @@ class EditComment extends Component {
   submitComment = (e) => {
     e.preventDefault()
     const values = serializeForm(e.target, { hash: true })
-    values.parentId = this.props.parentId
-    console.log(values)
-    this.props.dispatch(fetchNewComment(values))
+
+    if (typeof this.props.comment === 'object') {
+      this.props.dispatch(fetchEditComment(this.props.comment.id, values))
+    } else {
+      values.parentId = this.props.parentId
+      this.props.dispatch(fetchNewComment(values))
+    }
     this.props.onClose()
   }
 
@@ -25,12 +29,16 @@ class EditComment extends Component {
              componentClass="textarea"
              name="body"
              placeholder="Enter comment contents"
+             defaultValue={ (typeof this.props.comment === 'object') ?
+               this.props.comment.body : "" }
            />
            <ControlLabel>Author</ControlLabel>
            <FormControl
              type="text"
              name="author"
              placeholder="Enter author name"
+             defaultValue={ (typeof this.props.comment === 'object') ?
+               this.props.comment.author : "" }
            />
         </FormGroup>
         <ButtonToolbar>

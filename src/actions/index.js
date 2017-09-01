@@ -78,3 +78,7 @@ export const addComment = (new_comment) => ({
 export const fetchNewComment = (options) => dispatch => (
   APIUtil.addComment(options).then(comment => dispatch(addComment(comment)))
 )
+
+export const fetchEditComment = (comment_id, options) => dispatch => (
+  APIUtil.editComment(comment_id, options).then(comment => dispatch(editComment(comment)))
+)

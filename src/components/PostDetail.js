@@ -4,6 +4,8 @@ import { Row, Col, ListGroup, ListGroupItem, Label } from 'react-bootstrap'
 import FaCaretDown from 'react-icons/lib/fa/caret-down'
 import FaCaretUp from 'react-icons/lib/fa/caret-up'
 import MdAddCircle from 'react-icons/lib/md/add-circle'
+import MdEdit from 'react-icons/lib/md/edit'
+import MdDelete from 'react-icons/lib/md/delete'
 import convertTimestamp from '../utils/convert-timestamp'
 import EditComment from './EditComment'
 import { fetchComments,
@@ -14,7 +16,8 @@ import { fetchComments,
 
 class PostDetail extends Component {
   state = {
-    add_comment: false
+    add_comment: false,
+    edit_comment: null
   }
   
   componentWillMount() {
@@ -63,6 +66,15 @@ class PostDetail extends Component {
   hideAddCommentForm = () => {
     this.setState({ add_comment: false })
   }
+
+  hideEditCommentForm = () => {
+    this.setState({ edit_comment: null })
+  }
+
+  editComment = (comment_id) => {
+    this.setState({ edit_comment: comment_id })
+  }
+
   render() {
     return (
       <div>
@@ -73,7 +85,15 @@ class PostDetail extends Component {
                 <Col xs={11}>
                   <h2>{ this.props.post.title }</h2>
                   <p>{ this.props.post.body }</p>
-                  <p className="timestamp-text"><Label>{ this.props.post.author }</Label>&nbsp;&nbsp;&nbsp;{ convertTimestamp(this.props.post.timestamp) }</p>                  
+                  <Row>
+                    <Col xs={3}>
+                      <MdEdit size={18} />
+                      <MdDelete size={18} />
+                    </Col>
+                    <Col xs={6}>
+                      <p className="timestamp-text"><Label>{ this.props.post.author }</Label>&nbsp;&nbsp;&nbsp;{ convertTimestamp(this.props.post.timestamp) }</p>                  
+                    </Col>
+                  </Row>
                 </Col>
                 <Col xs={1} className="no-padding">
                   <div className="vote-arrow">
@@ -100,31 +120,57 @@ class PostDetail extends Component {
         { /* comments */ }
         <ListGroup>
           { Array.isArray(this.props.comments) &&
-            this.handleComments(this.props.comments).map( comment => (
-              <ListGroupItem>
-                <Row>
-                  <Col xs={11}>
-                    <p>{ comment.body }</p>
-                    <p className="timestamp-text"><Label>{ comment.author }</Label>&nbsp;&nbsp;&nbsp;{ convertTimestamp(comment.timestamp) }</p>                  
-                  </Col>
-                  <Col xs={1} className="no-padding">
-                    <div className="vote-arrow">
-                      <FaCaretUp
-                        size={30}
-                        onClick={ () => this.voteOnComment(comment.id, 'upVote') }
+            this.handleComments(this.props.comments).map( comment => {
+              if (this.state.edit_comment !== comment.id) {
+                return (
+                  <ListGroupItem>
+                    <Row>
+                      <Col xs={11}>
+                        <p>{ comment.body }</p>
+                        <Row>
+                          <Col xs={3}>
+                            <MdEdit
+                              className="edit-icon"
+                              onClick={ () => this.editComment(comment.id) }
+                              size={18} />
+                            <MdDelete size={18} />
+                          </Col>
+                          <Col xs={6}>
+                            <p className="timestamp-text"><Label>{ comment.author }</Label>&nbsp;&nbsp;&nbsp;{ convertTimestamp(comment.timestamp) }</p>                  
+                          </Col>
+                        </Row>
+                      </Col>
+                      <Col xs={1} className="no-padding">
+                        <div className="vote-arrow">
+                          <FaCaretUp
+                            size={30}
+                            onClick={ () => this.voteOnComment(comment.id, 'upVote') }
+                          />
+                        </div>
+                        <div className="vote-score">{ comment.voteScore }</div>
+                        <div className="vote-arrow">
+                          <FaCaretDown
+                            size={30}
+                            onClick={ () => this.voteOnComment(comment.id, 'downVote') }
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </ListGroupItem>
+                  ) 
+                } else {
+                  // edit comment
+                  return (
+                    <ListGroupItem>
+                      <EditComment
+                        parentId={ this.props.post_id }
+                        onClose={ this.hideEditCommentForm }
+                        comment={ comment }
                       />
-                    </div>
-                    <div className="vote-score">{ comment.voteScore }</div>
-                    <div className="vote-arrow">
-                      <FaCaretDown
-                        size={30}
-                        onClick={ () => this.voteOnComment(comment.id, 'downVote') }
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </ListGroupItem>
-            ))
+                    </ListGroupItem>
+                  )
+                }
+            })
           }
           { // add new comment
             this.state.add_comment &&

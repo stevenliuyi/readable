@@ -46,6 +46,17 @@ export const voteComment = (comment_id, option) =>
     body: JSON.stringify({ option })
   }).then(res => res.json())
 
+export const editComment = (comment_id, options) =>
+  fetch(`${api_url}/comments/${comment_id}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({
+        timestamp: Date.now(),
+        body: options.body,
+        author: options.author
+    })
+  }).then(res => res.json())
+
 export const addComment = (options) => 
   fetch(`${api_url}/comments`, {
     method: 'POST',
