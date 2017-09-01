@@ -113,7 +113,7 @@ class ListPosts extends Component {
 
         { // add post icon
           !this.state.add_post &&
-          <div className="add-post-icon">
+          <div className="add-icon">
             <MdAddCircle
               color={'#337AB7'}
               size={40}

@@ -3,10 +3,15 @@ import { connect } from 'react-redux'
 import { Row, Col, ListGroup, ListGroupItem, Label } from 'react-bootstrap'
 import FaCaretDown from 'react-icons/lib/fa/caret-down'
 import FaCaretUp from 'react-icons/lib/fa/caret-up'
+import MdAddCircle from 'react-icons/lib/md/add-circle'
 import convertTimestamp from '../utils/convert-timestamp'
 import { fetchComments, fetchVotePost, fetchVoteComment } from '../actions'
+import EditComment from './EditComment'
 
 class PostDetail extends Component {
+  state = {
+    add_comment: false
+  }
   
   componentWillMount() {
     this.props.dispatch(fetchComments(this.props.post_id))    
@@ -20,6 +25,9 @@ class PostDetail extends Component {
     this.props.dispatch(fetchVoteComment(id, option))
   }
 
+  hideAddCommentForm = () => {
+    this.setState({ add_comment: false })
+  }
   render() {
     return (
       <div>
@@ -83,7 +91,28 @@ class PostDetail extends Component {
               </ListGroupItem>
             ))
           }
+          { // add new comment
+            this.state.add_comment &&
+              <ListGroupItem>
+                <h3>New Comment</h3>
+                <EditComment
+                  parentId={ this.props.post_id }
+                  onClose={ this.hideAddCommentForm }
+                />
+              </ListGroupItem>
+          }
         </ListGroup>
+
+        { // add comment icon
+          !this.state.add_comment &&
+          <div className="add-icon">
+            <MdAddCircle
+              color={'#337AB7'}
+              size={40}
+              onClick={ () => this.setState({ add_comment: true })}
+              />
+          </div>
+        }
       </div>
     )
   }

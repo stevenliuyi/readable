@@ -5,6 +5,7 @@ export const RECEIVE_CATEGORIES = "RECEIVE_CATEGORIES"
 export const ADD_POST = "ADD_POST"
 export const EDIT_POST = "EDIT_POST"
 export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS"
+export const ADD_COMMENT = "ADD_COMMENT"
 export const EDIT_COMMENT = "EDIT_COMMENT"
 export const UPDATE_ORDER_METHOD = "UPDATE_ORDER_METHOD"
 
@@ -67,4 +68,13 @@ export const editComment = (edited_comment) => ({
 
 export const fetchVoteComment = (comment_id, option) => dispatch => (
   APIUtil.voteComment(comment_id, option).then(comment => dispatch(editComment(comment)))
+)
+
+export const addComment = (new_comment) => ({
+  type: ADD_COMMENT,
+  new_comment
+})
+
+export const fetchNewComment = (options) => dispatch => (
+  APIUtil.addComment(options).then(comment => dispatch(addComment(comment)))
 )

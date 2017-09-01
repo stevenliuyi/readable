@@ -3,6 +3,7 @@ import { RECEIVE_POSTS,
          ADD_POST,
          EDIT_POST,
          RECEIVE_COMMENTS,
+         ADD_COMMENT,
          EDIT_COMMENT,
          RECEIVE_CATEGORIES,
          UPDATE_ORDER_METHOD} from '../actions';
@@ -30,6 +31,9 @@ function comments(state = {}, action) {
     case RECEIVE_COMMENTS :
       const { received_comments } = action
       return received_comments
+    case ADD_COMMENT:
+      const { new_comment } = action
+      return [...state, new_comment]
     case EDIT_COMMENT:
       const { edited_comment } = action
       return state.map( (comment, index) => comment.id === edited_comment.id ?
