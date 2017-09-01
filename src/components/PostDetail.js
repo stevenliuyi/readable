@@ -123,7 +123,11 @@ class PostDetail extends Component {
           </ListGroup>
 
         }
-        <h3>Comments</h3>
+        <h3>Comments ({ 
+          Array.isArray(this.props.comments) ?
+            this.props.comments.filter( comment => !comment.deleted).length :
+            0
+        })</h3>
   
         { /* comments */ }
         <ListGroup>
