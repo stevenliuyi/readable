@@ -8,6 +8,7 @@ import MdAddCircle from 'react-icons/lib/md/add-circle'
 import convertTimestamp from '../utils/convert-timestamp'
 import EditPost from './EditPost'
 import { fetchVotePost, receivePosts, updateOrderMethod } from '../actions'
+import { Link } from 'react-router-dom'
 
 class ListPosts extends Component {
   state = {
@@ -92,7 +93,9 @@ class ListPosts extends Component {
                     </Col>
                   </Row>
                   <div className="detail-icon">
-                    <FaEllipsisH size={30} color={'grey'} />
+                    <Link to={ `/${ post.category }/${ post.id }`}>
+                      <FaEllipsisH size={30} color={'grey'} />
+                    </Link>
                   </div>
                 </ListGroupItem>
               ))

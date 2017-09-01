@@ -9,6 +9,7 @@ import { PageHeader, Grid, Row, Col } from 'react-bootstrap'
 import { DropdownButton, MenuItem } from 'react-bootstrap'
 import ListPosts from './ListPosts'
 import Categories from './Categories'
+import PostDetail from './PostDetail'
 
 class App extends Component {
   componentWillMount() {
@@ -27,8 +28,8 @@ class App extends Component {
         <Col xsHidden md={1} />
         <Col xs={12} md={10} className="no-padding">
           <PageHeader>Readable</PageHeader>
-          { /* root or category paths */ }
-          <Route exact path="/([^/]*)" render={ () => (
+          { /* match root, category or post detail paths */ }
+          <Route exact path="/([^/]*)(/[^/]*)?" render={ () => (
             <div>
               <Row className="category-bar">
                 <Col xs={10}>
@@ -37,6 +38,9 @@ class App extends Component {
                     } />
                   <Route exact path="/:category" render={ ({match}) => 
                     <Categories category={ match.params.category } />
+                    } />
+                  <Route exact path="/:category/:post_id" render={ () =>
+                    <Categories />
                     } />
                 </Col>
                 <Col xs={2} className="no-padding">
@@ -58,6 +62,9 @@ class App extends Component {
               <Route exact path="/:category" render={ ({match}) => 
                 <ListPosts category={ match.params.category } />
                 } />
+              <Route exact path="/:category/:post_id" render={ ({match}) =>
+                <PostDetail post_id={ match.params.post_id } />
+              } />
             </div>
           )} />
         </Col>
