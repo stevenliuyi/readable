@@ -29,8 +29,19 @@ export const addPost = (options) =>
   }).then(res => res.json())
 
 export const votePost = (post_id, option) =>
- fetch(`${api_url}/posts/${post_id}`, {
-   method: 'POST',
-   headers,
-   body: JSON.stringify({ option })
- }).then(res => res.json())
+  fetch(`${api_url}/posts/${post_id}`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ option })
+  }).then(res => res.json())
+
+export const fetchComments = (post_id) =>
+  fetch(`${api_url}/posts/${post_id}/comments`, { headers })
+    .then(res => res.json())
+
+export const voteComment = (comment_id, option) =>
+  fetch(`${api_url}/comments/${comment_id}`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ option })
+  }).then(res => res.json())

@@ -2,6 +2,8 @@ import { combineReducers } from 'redux'
 import { RECEIVE_POSTS,
          ADD_POST,
          EDIT_POST,
+         RECEIVE_COMMENTS,
+         EDIT_COMMENT,
          RECEIVE_CATEGORIES,
          UPDATE_ORDER_METHOD} from '../actions';
 
@@ -18,6 +20,20 @@ function posts(state = {}, action) {
       const { edited_post } = action
       return state.map( (post, index) => post.id === edited_post.id ?
               edited_post : post )   
+    default:
+      return state
+  }
+}
+
+function comments(state = {}, action) {
+  switch (action.type) {
+    case RECEIVE_COMMENTS :
+      const { received_comments } = action
+      return received_comments
+    case EDIT_COMMENT:
+      const { edited_comment } = action
+      return state.map( (comment, index) => comment.id === edited_comment.id ?
+              edited_comment : comment )   
     default:
       return state
   }
@@ -47,6 +63,7 @@ function order_method(state="highest votes", action) {
 
 export default combineReducers({
   posts,
+  comments,
   categories,
   order_method
 })
