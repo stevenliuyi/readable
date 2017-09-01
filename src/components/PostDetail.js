@@ -22,6 +22,7 @@ class PostDetail extends Component {
   
   componentWillMount() {
     this.props.dispatch(fetchComments(this.props.post_id))    
+    this.props.dispatch(updateOrderMethod('highest votes'))
   }
 
   handleComments = (comments) => {
@@ -44,13 +45,6 @@ class PostDetail extends Component {
         display_comments = comments
     }
 
-    // change order method to prevent comment from moving to 
-    // other location when its vote changes
-    if (this.props.order_method !== 'none') {
-      this.props.dispatch(receiveComments(comments))
-      this.props.dispatch(updateOrderMethod('none'))
-    }
-    
     return display_comments
     
   }
@@ -86,7 +80,7 @@ class PostDetail extends Component {
                   <h2>{ this.props.post.title }</h2>
                   <p>{ this.props.post.body }</p>
                   <Row>
-                    <Col xs={3}>
+                    <Col xs={6}>
                       <MdEdit size={18} />
                       <MdDelete size={18} />
                     </Col>
@@ -128,7 +122,7 @@ class PostDetail extends Component {
                       <Col xs={11}>
                         <p>{ comment.body }</p>
                         <Row>
-                          <Col xs={3}>
+                          <Col xs={6}>
                             <MdEdit
                               className="edit-icon"
                               onClick={ () => this.editComment(comment.id) }
