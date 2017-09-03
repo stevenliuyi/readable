@@ -1,5 +1,5 @@
 import uuid from 'uuid'
-const api_url = 'http://localhost:5001'
+const api_url = 'https://readable-server.herokuapp.com'
 
 const headers = {
   'Authorization': 'whatever-you-want',
