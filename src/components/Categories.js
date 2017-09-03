@@ -20,7 +20,7 @@ class Categories extends Component {
 
         { Array.isArray(this.props.categories) &&
             this.props.categories.map((cat) => (
-              <IndexLinkContainer to={ `/${cat.path}` }>
+              <IndexLinkContainer to={ `/${cat.path}` } key={ cat.name }>
                 <NavItem active={ this.props.category === cat.name }>
                   { cat.name }
                 </NavItem>

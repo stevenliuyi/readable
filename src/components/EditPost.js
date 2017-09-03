@@ -55,7 +55,7 @@ class EditPost extends Component {
              defaultValue={ (typeof this.props.post === 'object') ?
                this.props.post.category : "" }>
              { this.props.category.map( (cat) => ( 
-               <option value={ cat.name }>{ cat.name }</option>      
+               <option key={ cat.name } value={ cat.name }>{ cat.name }</option>      
                ))}
            </FormControl>
         </FormGroup>

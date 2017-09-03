@@ -83,7 +83,7 @@ class PostDetail extends Component {
                       <Col xs={6}>
                         <OverlayTrigger
                           placement="bottom"
-                          overlay={<Tooltip>edit post</Tooltip>}
+                          overlay={<Tooltip id="editPost">edit post</Tooltip>}
                         >
                           <MdEdit
                             className="edit-icon"
@@ -92,7 +92,7 @@ class PostDetail extends Component {
                         </OverlayTrigger>
                         <OverlayTrigger
                           placement="bottom"
-                          overlay={<Tooltip>delete post</Tooltip>}
+                          overlay={<Tooltip id="deletePost">delete post</Tooltip>}
                         >
                           <MdDelete
                             className="delete-icon"
@@ -109,7 +109,7 @@ class PostDetail extends Component {
                     <div className="vote-arrow">
                       <OverlayTrigger
                         placement="left"
-                        overlay={<Tooltip>upvote</Tooltip>}
+                        overlay={<Tooltip id="upVote">upvote</Tooltip>}
                       >
                         <FaCaretUp
                           size={30}
@@ -121,7 +121,7 @@ class PostDetail extends Component {
                     <div className="vote-arrow">
                       <OverlayTrigger
                         placement="left"
-                        overlay={<Tooltip>downvote</Tooltip>}
+                        overlay={<Tooltip id="downVote">downvote</Tooltip>}
                       >
                         <FaCaretDown
                           size={30}
@@ -158,7 +158,7 @@ class PostDetail extends Component {
             this.props.comments.filter( comment => !comment.deleted).map( comment => {
               if (this.state.edit_comment !== comment.id) {
                 return (
-                  <ListGroupItem>
+                  <ListGroupItem key={ comment.id }>
                     <Row>
                       <Col xs={11}>
                         <p>{ comment.body }</p>
@@ -166,7 +166,7 @@ class PostDetail extends Component {
                           <Col xs={6}>
                             <OverlayTrigger
                               placement="bottom"
-                              overlay={<Tooltip>edit comment</Tooltip>}
+                              overlay={<Tooltip id="editComment">edit comment</Tooltip>}
                             >
                               <MdEdit
                                 className="edit-icon"
@@ -175,7 +175,7 @@ class PostDetail extends Component {
                             </OverlayTrigger>
                             <OverlayTrigger
                               placement="bottom"
-                              overlay={<Tooltip>delete comment</Tooltip>}
+                              overlay={<Tooltip id="deleteComment">delete comment</Tooltip>}
                             >
                               <MdDelete
                                 className="delete-icon"
@@ -192,7 +192,7 @@ class PostDetail extends Component {
                         <div className="vote-arrow">
                           <OverlayTrigger
                             placement="left"
-                            overlay={<Tooltip>upvote</Tooltip>}
+                            overlay={<Tooltip id="upVote">upvote</Tooltip>}
                           >
                             <FaCaretUp
                               size={30}
@@ -204,7 +204,7 @@ class PostDetail extends Component {
                         <div className="vote-arrow">
                           <OverlayTrigger
                             placement="left"
-                            overlay={<Tooltip>downvote</Tooltip>}
+                            overlay={<Tooltip id="downVote">downvote</Tooltip>}
                           >
                             <FaCaretDown
                               size={30}
@@ -219,7 +219,7 @@ class PostDetail extends Component {
                 } else {
                   // edit comment
                   return (
-                    <ListGroupItem>
+                    <ListGroupItem key={ comment.id }>
                       <EditComment
                         parentId={ this.props.post_id }
                         onClose={ this.hideEditCommentForm }
@@ -247,7 +247,7 @@ class PostDetail extends Component {
           <div className="add-icon">
             <OverlayTrigger
               placement="bottom"
-              overlay={<Tooltip>add new comment</Tooltip>}
+              overlay={<Tooltip id="addNewComment">add new comment</Tooltip>}
             >
               <MdAddCircle
                 color={'#337AB7'}
@@ -263,7 +263,7 @@ class PostDetail extends Component {
 }
 
 PostDetail.contextTypes = {
-  router: PropTypes.func.isRequired
+  router: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state, props) => {

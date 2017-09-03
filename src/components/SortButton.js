@@ -20,10 +20,16 @@ class SortButton extends Component {
   }
   render() {
     return (
-      <DropdownButton bsSize="small" bsStyle="primary" title={ `sort ${this.props.entity}s` }>
+      <DropdownButton
+        id="sortButton"
+        bsSize="small"
+        bsStyle="primary"
+        title={ `sort ${this.props.entity}s` }>
         {
           this.order_methods.map(order_method =>
-            <MenuItem onClick={ () => this.sort(order_method) }>
+            <MenuItem
+              key={ order_method }
+              onClick={ () => this.sort(order_method) }>
               { order_method }
             </MenuItem>
           )

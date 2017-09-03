@@ -48,7 +48,7 @@ class ListPosts extends Component {
             Array.isArray(this.props.posts) &&
               this.handlePosts(this.props.posts,
                           this.props.category).map( (post) => (
-                <ListGroupItem>
+                <ListGroupItem key={ post.id }>
                   <Row>
                     <Col xs={11}>
                       <h2>{ post.title }</h2>
@@ -59,7 +59,7 @@ class ListPosts extends Component {
                       <div className="vote-arrow">
                         <OverlayTrigger
                           placement="left"
-                          overlay={<Tooltip>upvote</Tooltip>}
+                          overlay={<Tooltip id="upVote">upvote</Tooltip>}
                         >
                           <FaCaretUp
                             size={30}
@@ -71,7 +71,7 @@ class ListPosts extends Component {
                       <div className="vote-arrow">
                         <OverlayTrigger
                           placement="left"
-                          overlay={<Tooltip>downvote</Tooltip>}
+                          overlay={<Tooltip id="downVote">downvote</Tooltip>}
                         >
                           <FaCaretDown
                             size={30}
@@ -85,7 +85,7 @@ class ListPosts extends Component {
                     <Link to={ `/${ post.category }/${ post.id }`}>
                       <OverlayTrigger
                         placement="bottom"
-                        overlay={<Tooltip>show detail</Tooltip>}
+                        overlay={<Tooltip id="showDetail">show detail</Tooltip>}
                       >
                         <FaEllipsisH size={30} color={'grey'} />
                       </OverlayTrigger>
@@ -110,7 +110,7 @@ class ListPosts extends Component {
           <div className="add-icon">
             <OverlayTrigger
               placement="bottom"
-              overlay={<Tooltip>add new post</Tooltip>}
+              overlay={<Tooltip id="addNewPost">add new post</Tooltip>}
             >
               <MdAddCircle
                 color={'#337AB7'}
