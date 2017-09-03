@@ -72,3 +72,16 @@ html {
 .delete-icon {
   cursor: pointer;
 }
+
+.header {
+  color: black;
+  text-decoration: none ! important;
+}
+
+.header:active {
+  color: black;
+}
+
+.header:focus {
+  color: black;
+}

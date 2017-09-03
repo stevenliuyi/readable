@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchPosts, fetchCategories } from '../actions'
-import { Route } from 'react-router-dom'
+import { Route, Link } from 'react-router-dom'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
@@ -22,7 +22,9 @@ class App extends Component {
       <Grid>
         <Col xsHidden md={1} />
         <Col xs={12} md={10} className="no-padding">
-          <PageHeader>Readable</PageHeader>
+          <PageHeader>
+            <Link to="/" className="header">Readable</Link>
+          </PageHeader>
           { /* match root, category or post detail paths */ }
           <Route exact path="/([^/]*)(/[^/]*)?" render={ () => (
             <div>
