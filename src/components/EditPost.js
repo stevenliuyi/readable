@@ -73,8 +73,8 @@ class EditPost extends Component {
   }
 }
 
-const mapStateToProps = (state) => (
-  { category: state.categories }
+const mapStateToProps = ({ categories }) => (
+  { categories }
 )
 
 export default connect(mapStateToProps)(EditPost)

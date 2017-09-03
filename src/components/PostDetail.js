@@ -266,14 +266,11 @@ PostDetail.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-const mapStateToProps = (state, props) => {
-  const post = Array.isArray(state.posts) ?
-      state.posts.find(post => post.id === props.post_id) :
+const mapStateToProps = ({ posts, comments }, props) => {
+  const post = Array.isArray(posts) ?
+      posts.find(post => post.id === props.post_id) :
       null
-  return {
-    post,
-    comments: state.comments
-  }
+  return { post, comments }
 }
 
 export default connect(mapStateToProps, {

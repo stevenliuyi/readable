@@ -126,9 +126,8 @@ class ListPosts extends Component {
 }
 
 
-const mapStateToProps = (state) => ({
-  posts: state.posts,
-  order_method: state.order_method
+const mapStateToProps = ({ posts, order_method }) => ({
+  posts, order_method
 })
 
 export default connect(mapStateToProps,
