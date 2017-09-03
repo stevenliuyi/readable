@@ -5,7 +5,9 @@ export default function categories(state ={}, action) {
 
   switch (action.type) {
     case RECEIVE_CATEGORIES:
-      return received_categories
+      return ('categories' in received_categories) ?
+        received_categories.categories :
+        state
     default:
       return state
   }

@@ -12,7 +12,7 @@ export const fetchPosts = () =>
 
 export const fetchCategories = () =>
   fetch(`${api_url}/categories`, { headers })
-    .then(res => res.json()).then(data => data.categories)
+    .then(res => res.json())
 
 export const addPost = (options) => 
   fetch(`${api_url}/posts`, {

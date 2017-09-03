@@ -30,6 +30,8 @@ export function convertTimestamp(timestamp) {
 export function sort(array, order_method) {
   // copy array by value because state should not be mutate
   // in the reducer!
+  if (!Array.isArray(array)) return [] 
+
   let old_array = array.slice()
   let new_array = []
   switch(order_method) {

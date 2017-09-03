@@ -1,5 +1,3 @@
-import * as APIUtil from '../utils/api';
-
 export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS"
 export const ADD_COMMENT = "ADD_COMMENT"
 export const EDIT_COMMENT = "EDIT_COMMENT"
@@ -26,24 +24,24 @@ export const updateCommentsOrder = (order_method) => ({
 })
 
 // async action creators
-export const fetchComments = (post_id) => dispatch => (
-  APIUtil.fetchComments(post_id).then(comments => dispatch(receiveComments(comments)))
+export const fetchComments = (post_id) => (dispatch, getState, api) => (
+  api.fetchComments(post_id).then(comments => dispatch(receiveComments(comments)))
 )
 
 
-export const fetchNewComment = (options) => dispatch => (
-  APIUtil.addComment(options).then(comment => dispatch(addComment(comment)))
+export const fetchNewComment = (options) => (dispatch, getState, api) => (
+  api.addComment(options).then(comment => dispatch(addComment(comment)))
 )
 
-export const fetchVoteComment = (comment_id, option) => dispatch => (
-  APIUtil.voteComment(comment_id, option).then(comment => dispatch(editComment(comment)))
+export const fetchVoteComment = (comment_id, option) => (dispatch, getState, api) => (
+  api.voteComment(comment_id, option).then(comment => dispatch(editComment(comment)))
 )
 
-export const fetchEditComment = (comment_id, options) => dispatch => (
-  APIUtil.editComment(comment_id, options).then(comment => dispatch(editComment(comment)))
+export const fetchEditComment = (comment_id, options) => (dispatch, getState, api) => (
+  api.editComment(comment_id, options).then(comment => dispatch(editComment(comment)))
 )
 
-export const deleteComment = (comment_id) => dispatch => (
-  APIUtil.deleteComment(comment_id).then(comment => dispatch(editComment(comment)))
+export const deleteComment = (comment_id) => (dispatch, getState, api) => (
+  api.deleteComment(comment_id).then(comment => dispatch(editComment(comment)))
 )
 
