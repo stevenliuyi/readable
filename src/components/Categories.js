@@ -6,7 +6,7 @@ import { IndexLinkContainer } from 'react-router-bootstrap'
 
 class Categories extends Component {
   componentWillMount() {
-    this.props.dispatch(fetchCategories())
+    this.props.fetchCategories()
   }
 
   render() {
@@ -35,4 +35,4 @@ const mapStateToProps = (state) => (
   { categories: state.categories }
 )
 
-export default connect(mapStateToProps)(Categories)
+export default connect(mapStateToProps, { fetchCategories })(Categories)

@@ -12,10 +12,10 @@ class SortButton extends Component {
 
   sort = (order_method) => {
     if (this.props.entity === 'post') {
-      this.props.dispatch(updatePostsOrder(order_method))
+      this.props.updatePostsOrder(order_method)
     }
     if (this.props.entity === 'comment') {
-      this.props.dispatch(updateCommentsOrder(order_method))
+      this.props.updateCommentsOrder(order_method)
     }
   }
   render() {
@@ -33,4 +33,6 @@ class SortButton extends Component {
   }
 }
 
-export default connect()(SortButton)
+export default connect(null, {
+  updatePostsOrder,
+  updateCommentsOrder })(SortButton)

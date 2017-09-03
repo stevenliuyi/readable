@@ -25,15 +25,15 @@ class PostDetail extends Component {
   }
   
   componentWillMount() {
-    this.props.dispatch(fetchComments(this.props.post_id))    
+    this.props.fetchComments(this.props.post_id)    
   }
 
   voteOnPost = (id, option) => {
-    this.props.dispatch(fetchVotePost(id, option))
+    this.props.fetchVotePost(id, option)
   }
 
   voteOnComment = (id, option) => {
-    this.props.dispatch(fetchVoteComment(id, option))
+    this.props.fetchVoteComment(id, option)
   }
 
   hideEditPostForm = () => {
@@ -57,13 +57,13 @@ class PostDetail extends Component {
   }
 
   deletePost = () => {
-    this.props.dispatch(deletePost(this.props.post_id))
+    this.props.deletePost(this.props.post_id)
     // back to the root page after deletion
     this.context.router.history.push("/")
   }
   
   deleteComment = (comment_id) => {
-    this.props.dispatch(deleteComment(comment_id))
+    this.props.deleteComment(comment_id)
   }
 
   render() {
@@ -276,4 +276,10 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-export default connect(mapStateToProps)(PostDetail)
+export default connect(mapStateToProps, {
+  fetchComments,
+  fetchVotePost,
+  fetchVoteComment,
+  deletePost,
+  deleteComment
+})(PostDetail)

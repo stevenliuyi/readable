@@ -13,8 +13,8 @@ import SortButton from './SortButton'
 
 class App extends Component {
   componentWillMount() {
-    this.props.dispatch(fetchPosts())
-    this.props.dispatch(fetchCategories())
+    this.props.fetchPosts()
+    this.props.fetchCategories()
   }
 
   render() {
@@ -70,6 +70,7 @@ const mapStateToProps = (state) => (
   { categories: state.categories }
 )
 
-export default connect(mapStateToProps, null, null, {
+export default connect(mapStateToProps,
+  { fetchPosts, fetchCategories }, null, {
   pure: false // allow react router to update view
 })(App);

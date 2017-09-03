@@ -37,7 +37,7 @@ class ListPosts extends Component {
   }
 
   voteOnPost = (id, option) => {
-    this.props.dispatch(fetchVotePost(id, option))
+    this.props.fetchVotePost(id, option)
   }
 
   render() {
@@ -131,6 +131,7 @@ const mapStateToProps = (state) => ({
   order_method: state.order_method
 })
 
-export default connect(mapStateToProps, null, null, {
+export default connect(mapStateToProps,
+  { fetchVotePost }, null, {
   pure: false
 })(ListPosts)
